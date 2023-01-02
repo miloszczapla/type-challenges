@@ -1,9 +1,10 @@
-type DeepReadonly<T extends object> = {
+type DeepReadonly<T> = {
   readonly [key in keyof T]: T[key] extends object
-    ? DeepReadonly<T[key]>
+    ? T[key] extends Function
+      ? T[key]
+      : DeepReadonly<T[key]>
     : T[key]
 }
-
 // type X = {
 //   d: boolean
 //   e: {
@@ -89,3 +90,5 @@ type DeepReadonly<T extends object> = {
 // }
 
 // F.e.l[1].m[0] = ['s']
+
+// check in typescript if somethin is an object or an array
